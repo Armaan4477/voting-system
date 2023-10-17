@@ -13,6 +13,26 @@ public class Candidate {// Candidate class to store information about a candidat
         this.additionalInfo = additionalInfo;// Initialize the additional information of the candidate
     }
 
+    public void setName(String name) {// Setter for the name of the candidate
+        this.name = name;// Set the name of the candidate
+    }
+
+    public void setBackground(String background) {// Setter for the background of the candidate
+        this.background = background;// Set the background of the candidate
+    }
+
+    public void setExperience(String experience) {// Setter for the experience of the candidate
+        this.experience = experience;// Set the experience of the candidate
+    }
+
+    public void setPolicies(String policies) {// Setter for the policies of the candidate
+        this.policies = policies;// Set the policies of the candidate
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {// Setter for the additional information of the candidate
+        this.additionalInfo = additionalInfo;// Set the additional information of the candidate
+    }
+
     public String getName() {// Getter for the name of the candidate
         return name;// Return the name of the candidate
     }
