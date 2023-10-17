@@ -180,14 +180,14 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
                             .append("\nExperience: ").append(candidate.getExperience())
                             .append("\nPolicies: ").append(candidate.getPolicies()).append("\n\n");
                 }
-                JOptionPane.showMessageDialog(frame, profiles.toString());
+                JOptionPane.showMessageDialog(frame, profiles.toString());// Display the candidate profiles
             }
         });
 
         // ActionListener for the adminButton
-        adminButton.addActionListener(new ActionListener() {
+        adminButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
                 // Prompt the user for a passcode
                 String passcode = JOptionPane.showInputDialog(frame, "Please enter the admin passcode:");
 
@@ -198,102 +198,102 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
 
                 // Check if the passcode is correct
                 if (passcode.equals(ADMIN_PASSCODE)) {
-                    JFrame adminFrame = new JFrame("Admin Interface");
-                    adminFrame.setSize(570, 300);
-                    adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    adminFrame.setLayout(null);
-                    adminFrame.setLocationRelativeTo(null);
+                    JFrame adminFrame = new JFrame("Admin Interface");// Create a JFrame with the title "Admin Interface"
+                    adminFrame.setSize(570, 300);// Set the size of the JFrame to 570x300
+                    adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);// Set the default close operation to dispose the JFrame
+                    adminFrame.setLayout(null); // Set the layout of the JFrame to null
+                    adminFrame.setLocationRelativeTo(null);// Set the location of the JFrame to the center of the screen
 
                     // Create JLabels and JTextFields for candidate information
-                    JLabel nameLabel = new JLabel("Name:");
-                    nameLabel.setBounds(10, 10, 80, 25);
-                    adminFrame.add(nameLabel);
+                    JLabel nameLabel = new JLabel("Name:");// Create a JLabel with the text "Name:"
+                    nameLabel.setBounds(10, 10, 80, 25);// Set the bounds of the JLabel to (10, 10, 80, 25)
+                    adminFrame.add(nameLabel);// Add the JLabel to the JFrame
 
-                    JTextField nameField = new JTextField();
-                    nameField.setBounds(100, 10, 200, 25);
-                    adminFrame.add(nameField);
+                    JTextField nameField = new JTextField();// Create a JTextField
+                    nameField.setBounds(100, 10, 200, 25);// Set the bounds of the JTextField to (100, 10, 200, 25)
+                    adminFrame.add(nameField);// Add the JTextField to the JFrame
 
-                    JLabel backgroundLabel = new JLabel("Background:");
-                    backgroundLabel.setBounds(10, 40, 80, 25);
-                    adminFrame.add(backgroundLabel);
+                    JLabel backgroundLabel = new JLabel("Background:");// Create a JLabel with the text "Background:"
+                    backgroundLabel.setBounds(10, 40, 80, 25);// Set the bounds of the JLabel to (10, 40, 80, 25)
+                    adminFrame.add(backgroundLabel);// Add the JLabel to the JFrame
 
-                    JTextField backgroundField = new JTextField();
-                    backgroundField.setBounds(100, 40, 200, 25);
-                    adminFrame.add(backgroundField);
+                    JTextField backgroundField = new JTextField();// Create a JTextField
+                    backgroundField.setBounds(100, 40, 200, 25);// Set the bounds of the JTextField to (100, 40, 200, 25)
+                    adminFrame.add(backgroundField);// Add the JTextField to the JFrame
 
-                    JLabel experienceLabel = new JLabel("Experience:");
-                    experienceLabel.setBounds(10, 70, 80, 25);
-                    adminFrame.add(experienceLabel);
+                    JLabel experienceLabel = new JLabel("Experience:");// Create a JLabel with the text "Experience:"
+                    experienceLabel.setBounds(10, 70, 80, 25);// Set the bounds of the JLabel to (10, 70, 80, 25)
+                    adminFrame.add(experienceLabel);// Add the JLabel to the JFrame
 
-                    JTextField experienceField = new JTextField();
-                    experienceField.setBounds(100, 70, 200, 25);
-                    adminFrame.add(experienceField);
+                    JTextField experienceField = new JTextField();// Create a JTextField
+                    experienceField.setBounds(100, 70, 200, 25);// Set the bounds of the JTextField to (100, 70, 200, 25)
+                    adminFrame.add(experienceField);// Add the JTextField to the JFrame
 
-                    JLabel policiesLabel = new JLabel("Policies:");
-                    policiesLabel.setBounds(10, 100, 80, 25);
-                    adminFrame.add(policiesLabel);
+                    JLabel policiesLabel = new JLabel("Policies:");// Create a JLabel with the text "Policies:"
+                    policiesLabel.setBounds(10, 100, 80, 25);// Set the bounds of the JLabel to (10, 100, 80, 25)
+                    adminFrame.add(policiesLabel);// Add the JLabel to the JFrame
 
-                    JTextField policiesField = new JTextField();
-                    policiesField.setBounds(100, 100, 200, 25);
-                    adminFrame.add(policiesField);
+                    JTextField policiesField = new JTextField();// Create a JTextField
+                    policiesField.setBounds(100, 100, 200, 25);// Set the bounds of the JTextField to (100, 100, 200, 25)
+                    adminFrame.add(policiesField);// Add the JTextField to the JFrame
 
-                    JLabel additionalInfoLabel = new JLabel("Additional Info:");
-                    additionalInfoLabel.setBounds(10, 130, 80, 25);
-                    adminFrame.add(additionalInfoLabel);
+                    JLabel additionalInfoLabel = new JLabel("Additional Info:");// Create a JLabel with the text "Additional Info:"
+                    additionalInfoLabel.setBounds(10, 130, 80, 25);// Set the bounds of the JLabel to (10, 130, 80, 25)
+                    adminFrame.add(additionalInfoLabel);// Add the JLabel to the JFrame
 
-                    JTextField additionalInfoField = new JTextField();
-                    additionalInfoField.setBounds(100, 130, 200, 25);
-                    adminFrame.add(additionalInfoField);
+                    JTextField additionalInfoField = new JTextField();// Create a JTextField
+                    additionalInfoField.setBounds(100, 130, 200, 25);// Set the bounds of the JTextField to (100, 130, 200, 25)
+                    adminFrame.add(additionalInfoField);// Add the JTextField to the JFrame
 
                     // Create JComboBox for selecting candidate to edit
-                    JLabel selectCandidateLabel = new JLabel("Select Candidate:");
-                    selectCandidateLabel.setBounds(10, 170, 120, 25);
-                    adminFrame.add(selectCandidateLabel);
+                    JLabel selectCandidateLabel = new JLabel("Select Candidate:");// Create a JLabel with the text "Select Candidate:"
+                    selectCandidateLabel.setBounds(10, 170, 120, 25);// Set the bounds of the JLabel to (10, 170, 120, 25)
+                    adminFrame.add(selectCandidateLabel);// Add the JLabel to the JFrame
 
-                    JComboBox<String> candidateComboBox = new JComboBox<>(candidateNames);
-                    candidateComboBox.setBounds(130, 170, 150, 25);
-                    adminFrame.add(candidateComboBox);
+                    JComboBox<String> candidateComboBox = new JComboBox<>(candidateNames);// Create a JComboBox with the candidate names
+                    candidateComboBox.setBounds(130, 170, 150, 25);// Set the bounds of the JComboBox to (130, 170, 150, 25)
+                    adminFrame.add(candidateComboBox);// Add the JComboBox to the JFrame
 
                     // Create JButton to save changes
-                    JButton saveButton = new JButton("Save Changes");
-                    saveButton.setBounds(100, 220, 120, 25);
-                    adminFrame.add(saveButton);
+                    JButton saveButton = new JButton("Save Changes");// Create a JButton with the text "Save Changes"
+                    saveButton.setBounds(100, 220, 120, 25);// Set the bounds of the JButton to (100, 220, 120, 25)
+                    adminFrame.add(saveButton);// Add the JButton to the JFrame
 
                     // ActionListener for the candidateComboBox
-                    candidateComboBox.addActionListener(new ActionListener() {
+                    candidateComboBox.addActionListener(new ActionListener() {// Add an ActionListener to the JComboBox
                         @Override
-                        public void actionPerformed(ActionEvent e) {
+                        public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
                             // Update the text fields with the selected candidate's information
-                            String selectedCandidate = (String) candidateComboBox.getSelectedItem();
-                            Candidate candidate = candidateInfo.get(selectedCandidate);
-                            nameField.setText(candidate.getName());
-                            backgroundField.setText(candidate.getBackground());
-                            experienceField.setText(candidate.getExperience());
-                            policiesField.setText(candidate.getPolicies());
-                            additionalInfoField.setText(candidate.getAdditionalInfo());
+                            String selectedCandidate = (String) candidateComboBox.getSelectedItem();// Get the selected candidate
+                            Candidate candidate = candidateInfo.get(selectedCandidate);// Get the Candidate object for the selected candidate
+                            nameField.setText(candidate.getName());// Update the text fields with the selected candidate's information
+                            backgroundField.setText(candidate.getBackground());// Update the text fields with the selected candidate's information
+                            experienceField.setText(candidate.getExperience());// Update the text fields with the selected candidate's information
+                            policiesField.setText(candidate.getPolicies());// Update the text fields with the selected candidate's information
+                            additionalInfoField.setText(candidate.getAdditionalInfo());// Update the text fields with the selected candidate's information
                         }
                     });
 
                     // ActionListener for the saveButton
-                    saveButton.addActionListener(new ActionListener() {
+                    saveButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
                         @Override
-                        public void actionPerformed(ActionEvent e) {
+                        public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
                             // Get the selected candidate and update their information in the candidateInfo map
-                            String selectedCandidate = (String) candidateComboBox.getSelectedItem();
-                            Candidate candidate = candidateInfo.get(selectedCandidate);
-                            candidate.setName(nameField.getText());
-                            candidate.setBackground(backgroundField.getText());
-                            candidate.setExperience(experienceField.getText());
-                            candidate.setPolicies(policiesField.getText());
-                            candidate.setAdditionalInfo(additionalInfoField.getText());
-                            JOptionPane.showMessageDialog(adminFrame, "Candidate information updated.");
+                            String selectedCandidate = (String) candidateComboBox.getSelectedItem();// Get the selected candidate
+                            Candidate candidate = candidateInfo.get(selectedCandidate);// Get the Candidate object for the selected candidate
+                            candidate.setName(nameField.getText());// Update the candidate information in the candidateInfo map
+                            candidate.setBackground(backgroundField.getText());// Update the candidate information in the candidateInfo map
+                            candidate.setExperience(experienceField.getText());// Update the candidate information in the candidateInfo map
+                            candidate.setPolicies(policiesField.getText());// Update the candidate information in the candidateInfo map
+                            candidate.setAdditionalInfo(additionalInfoField.getText());// Update the candidate information in the candidateInfo map
+                            JOptionPane.showMessageDialog(adminFrame, "Candidate information updated.");// Display a message to the user
                         }
                     });
 
                     // Make the admin frame visible
                     adminFrame.setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Incorrect passcode. Access denied.");
+                    JOptionPane.showMessageDialog(frame, "Incorrect passcode. Access denied.");// Display a message to the user
                 }
             }
         });
