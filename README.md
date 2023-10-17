@@ -11,6 +11,6 @@ Currently an array system is present to handle the votes and the respective coun
 
 
 ## Team Members:
-1. [Jaspreet Kaur]  
-2. [Mahek Pandey]
-3. [Mith Utekar]
+1. Jaspreet Kaur  
+2. Mahek Pandey
+3. Mith Utekar
