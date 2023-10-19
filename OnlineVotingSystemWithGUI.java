@@ -45,50 +45,28 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
                         "5. Environmental Sustainability",
                 "Jaspreet is committed to equality, community engagement, and transparent representation. Your vote for Jaspreet is a vote for a better, more inclusive future."));
 
-        // Create and configure JFrame
-        JFrame frame = new JFrame("Online Voting System");// Create a JFrame with the title "Online Voting System"
-        frame.setSize(570, 300);// Set the size of the JFrame to 570x300
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// Set the default close operation to exit the program
-        frame.setLayout(null);// Set the layout of the JFrame to null
-        frame.setLocationRelativeTo(null);// Set the location of the JFrame to the center of the screen
-
-        // Create JButton to show candidate profiles
-        JButton viewProfilesButton = new JButton("View Candidate Profiles");// Create a JButton with the text "View Candidate Profiles"
-        viewProfilesButton.setBounds(10, 50, 180, 25);// Set the bounds of the JButton to (10, 50, 180, 25)
-        frame.add(viewProfilesButton);// Add the JButton to the JFrame
-
-        // Create JButton for voting
-        JButton voteButton = new JButton("Vote");// Create a JButton with the text "Vote"
-        voteButton.setBounds(200, 50, 80, 25);// Set the bounds of the JButton to (200, 50, 80, 25)
-        frame.add(voteButton);// Add the JButton to the JFrame
-
-        // Create JButton to show final vote counts
-        JButton showResultsButton = new JButton("Show Results");// Create a JButton with the text "Show Results"
-        showResultsButton.setBounds(290, 50, 120, 25);// Set the bounds of the JButton to (290, 50, 120, 25)
-        frame.add(showResultsButton);// Add the JButton to the JFrame
-
-        // Create JButton to show votees
-        JButton showVoteesButton = new JButton("Show Votees");// Create a JButton with the text "Show Votees"
-        showVoteesButton.setBounds(420, 50, 120, 25);// Set the bounds of the JButton to (420, 50, 120, 25)
-        frame.add(showVoteesButton);// Add the JButton to the JFrame
-
-        // Create JButton for admin interface
-        JButton adminButton = new JButton("Admin");// Create a JButton with the text "Admin"
-        adminButton.setBounds(10, 10, 80, 25);// Set the bounds of the JButton to (10, 10, 80, 25)
+                JFrame frame = new JFrame("Online Voting System");// Create a JFrame with the title "Online Voting System"
+                frame.setSize(570, 300);// Set the size of the JFrame to 570x300
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// Set the default close operation to exit the program
+                frame.setLayout(null);// Set the layout of the JFrame to null
+                frame.setLocationRelativeTo(null);// Set the location of the JFrame to the center of the screen
+                
+                // Create JButton to show candidate profiles
+                JButton viewProfilesButton = new JButton("View Candidate Profiles");// Create a JButton with the text "View Candidate Profiles"
+                viewProfilesButton.setBounds(90, 120, 180, 25);// Set the bounds of the JButton to (10, 10, 180, 25)
+                frame.add(viewProfilesButton);// Add the JButton to the JFrame
+                
+                // Create JButton for voting
+                JButton voteButton = new JButton("Vote");// Create a JButton with the text "Vote"
+                voteButton.setBounds(280, 120, 80, 25);// Set the bounds of the JButton to (200, 10, 80, 25)
+                frame.add(voteButton);// Add the JButton to the JFrame
+                
+                // Create JButton for admin interface
+                JButton adminButton = new JButton("Admin");// Create a JButton with the text "Admin"
+                adminButton.setBounds(370, 120, 80, 25);// Set the bounds of the JButton to (290, 10, 80, 25)
+                frame.add(adminButton);// Add the JButton to the JFrame
         frame.add(adminButton);// Add the JButton to the JFrame
 
-        // ActionListener for the showResultsButton
-        showResultsButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
-            @Override
-            public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
-                // Display the final vote count with candidate names
-                StringBuilder results = new StringBuilder("Final Vote Counts:\n");// Create a StringBuilder with the title "Final Vote Counts:"
-                for (int i = 0; i < candidateVotes.length; i++) {// Iterate through the candidateVotes array
-                    results.append(candidateNames[i]).append(": ").append(candidateVotes[i]).append(" votes\n");
-                }
-                JOptionPane.showMessageDialog(frame, results.toString());// Display the final vote count
-            }
-        });
 
         // ActionListener for the voteButton
         voteButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
@@ -156,17 +134,6 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
             }
         });
 
-        // ActionListener for the showVoteesButton
-        showVoteesButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
-            @Override
-            public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
-                StringBuilder voteesList = new StringBuilder("Votees List:\n");// Create a StringBuilder with the title "Votees List:"
-                for (Map.Entry<String, String> entry : voteMapping.entrySet()) {// Iterate through the voteMapping map
-                    voteesList.append(entry.getKey()).append(": Voted for ").append(entry.getValue()).append("\n");// Append the user's name and candidate selection to the StringBuilder
-                }
-                JOptionPane.showMessageDialog(frame, voteesList.toString());// Display the votees list
-            }
-        });
 
         // ActionListener for the viewProfilesButton
         viewProfilesButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
@@ -204,60 +171,89 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
                     adminFrame.setLayout(null); // Set the layout of the JFrame to null
                     adminFrame.setLocationRelativeTo(null);// Set the location of the JFrame to the center of the screen
 
-                    // Create JLabels and JTextFields for candidate information
+                   //add a button called editCandidateProfile that takes me to the editCandidateProfileItem
+                     JButton editCandidateProfile = new JButton("Edit Candidate Profile");// Create a JButton with the text "Edit Candidate Profile"
+                        editCandidateProfile.setBounds(10, 50, 180, 25);// Set the bounds of the JButton to (10, 50, 180, 25)
+                        adminFrame.add(editCandidateProfile);// Add the JButton to the JFrame
+
+                        //add the showresults button to this
+                        JButton showResultsButton = new JButton("Show Results");// Create a JButton with the text "Show Results"
+                        showResultsButton.setBounds(200, 50, 120, 25);// Set the bounds of the JButton to (200, 50, 120, 25)
+                        adminFrame.add(showResultsButton);// Add the JButton to the JFrame
+
+                        //add the showVotees button to this
+                        JButton showVoteesButton = new JButton("Show Votees");// Create a JButton with the text "Show Votees"
+                        showVoteesButton.setBounds(330, 50, 120, 25);// Set the bounds of the JButton to (330, 50, 120, 25)
+                        adminFrame.add(showVoteesButton);// Add the JButton to the JFrame
+
+
+                        
+
+// Add an ActionListener to the editCandidateProfileItem to handle the action
+editCandidateProfile.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        JFrame cprofile = new JFrame("Edit Candidate Profile}");// Create a JFrame with the title "Edit Candidate Profile"
+                    cprofile.setSize(570, 300);// Set the size of the JFrame to 570x300
+                    cprofile.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);// Set the default close operation to dispose the JFrame
+                    cprofile.setLayout(null); // Set the layout of the JFrame to null
+                    cprofile.setLocationRelativeTo(null);// Set the location of the JFrame to the center of the screen
+
+          // Create JLabels and JTextFields for candidate information
                     JLabel nameLabel = new JLabel("Name:");// Create a JLabel with the text "Name:"
                     nameLabel.setBounds(10, 10, 80, 25);// Set the bounds of the JLabel to (10, 10, 80, 25)
-                    adminFrame.add(nameLabel);// Add the JLabel to the JFrame
+                    cprofile.add(nameLabel);// Add the JLabel to the JFrame
 
                     JTextField nameField = new JTextField();// Create a JTextField
                     nameField.setBounds(100, 10, 200, 25);// Set the bounds of the JTextField to (100, 10, 200, 25)
-                    adminFrame.add(nameField);// Add the JTextField to the JFrame
+                   cprofile.add(nameField);// Add the JTextField to the JFrame
 
                     JLabel backgroundLabel = new JLabel("Background:");// Create a JLabel with the text "Background:"
                     backgroundLabel.setBounds(10, 40, 80, 25);// Set the bounds of the JLabel to (10, 40, 80, 25)
-                    adminFrame.add(backgroundLabel);// Add the JLabel to the JFrame
+                    cprofile.add(backgroundLabel);// Add the JLabel to the JFrame
 
                     JTextField backgroundField = new JTextField();// Create a JTextField
                     backgroundField.setBounds(100, 40, 200, 25);// Set the bounds of the JTextField to (100, 40, 200, 25)
-                    adminFrame.add(backgroundField);// Add the JTextField to the JFrame
+                    cprofile.add(backgroundField);// Add the JTextField to the JFrame
 
                     JLabel experienceLabel = new JLabel("Experience:");// Create a JLabel with the text "Experience:"
                     experienceLabel.setBounds(10, 70, 80, 25);// Set the bounds of the JLabel to (10, 70, 80, 25)
-                    adminFrame.add(experienceLabel);// Add the JLabel to the JFrame
+                    cprofile.add(experienceLabel);// Add the JLabel to the JFrame
 
                     JTextField experienceField = new JTextField();// Create a JTextField
                     experienceField.setBounds(100, 70, 200, 25);// Set the bounds of the JTextField to (100, 70, 200, 25)
-                    adminFrame.add(experienceField);// Add the JTextField to the JFrame
+                    cprofile.add(experienceField);// Add the JTextField to the JFrame
 
                     JLabel policiesLabel = new JLabel("Policies:");// Create a JLabel with the text "Policies:"
                     policiesLabel.setBounds(10, 100, 80, 25);// Set the bounds of the JLabel to (10, 100, 80, 25)
-                    adminFrame.add(policiesLabel);// Add the JLabel to the JFrame
+                    cprofile.add(policiesLabel);// Add the JLabel to the JFrame
 
                     JTextField policiesField = new JTextField();// Create a JTextField
                     policiesField.setBounds(100, 100, 200, 25);// Set the bounds of the JTextField to (100, 100, 200, 25)
-                    adminFrame.add(policiesField);// Add the JTextField to the JFrame
+                    cprofile.add(policiesField);// Add the JTextField to the JFrame
 
                     JLabel additionalInfoLabel = new JLabel("Additional Info:");// Create a JLabel with the text "Additional Info:"
                     additionalInfoLabel.setBounds(10, 130, 80, 25);// Set the bounds of the JLabel to (10, 130, 80, 25)
-                    adminFrame.add(additionalInfoLabel);// Add the JLabel to the JFrame
+                    cprofile.add(additionalInfoLabel);// Add the JLabel to the JFrame
 
                     JTextField additionalInfoField = new JTextField();// Create a JTextField
                     additionalInfoField.setBounds(100, 130, 200, 25);// Set the bounds of the JTextField to (100, 130, 200, 25)
-                    adminFrame.add(additionalInfoField);// Add the JTextField to the JFrame
+                   cprofile.add(additionalInfoField);// Add the JTextField to the JFrame
 
                     // Create JComboBox for selecting candidate to edit
                     JLabel selectCandidateLabel = new JLabel("Select Candidate:");// Create a JLabel with the text "Select Candidate:"
                     selectCandidateLabel.setBounds(10, 170, 120, 25);// Set the bounds of the JLabel to (10, 170, 120, 25)
-                    adminFrame.add(selectCandidateLabel);// Add the JLabel to the JFrame
+                   cprofile.add(selectCandidateLabel);// Add the JLabel to the JFrame
 
                     JComboBox<String> candidateComboBox = new JComboBox<>(candidateNames);// Create a JComboBox with the candidate names
                     candidateComboBox.setBounds(130, 170, 150, 25);// Set the bounds of the JComboBox to (130, 170, 150, 25)
-                    adminFrame.add(candidateComboBox);// Add the JComboBox to the JFrame
+                  cprofile.add(candidateComboBox);// Add the JComboBox to the JFrame
 
                     // Create JButton to save changes
                     JButton saveButton = new JButton("Save Changes");// Create a JButton with the text "Save Changes"
                     saveButton.setBounds(100, 220, 120, 25);// Set the bounds of the JButton to (100, 220, 120, 25)
-                    adminFrame.add(saveButton);// Add the JButton to the JFrame
+                  cprofile.add(saveButton);// Add the JButton to the JFrame
 
                     // ActionListener for the candidateComboBox
                     candidateComboBox.addActionListener(new ActionListener() {// Add an ActionListener to the JComboBox
@@ -286,13 +282,48 @@ public class OnlineVotingSystemWithGUI {// Create a Candidate class to store can
                             candidate.setExperience(experienceField.getText());// Update the candidate information in the candidateInfo map
                             candidate.setPolicies(policiesField.getText());// Update the candidate information in the candidateInfo map
                             candidate.setAdditionalInfo(additionalInfoField.getText());// Update the candidate information in the candidateInfo map
-                            JOptionPane.showMessageDialog(adminFrame, "Candidate information updated.");// Display a message to the user
+                            JOptionPane.showMessageDialog(cprofile, "Candidate information updated.");// Display a message to the user
                         }
-                    });
 
-                    // Make the admin frame visible
-                    adminFrame.setVisible(true);
-                } else {
+                        
+                    });
+                    // Make the candidate frame visible
+cprofile.setVisible(true);
+           
+    }
+});
+
+// ActionListener for the showResultsButton
+        showResultsButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
+            @Override
+            public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
+                // Display the final vote count with candidate names
+                StringBuilder results = new StringBuilder("Final Vote Counts:\n");// Create a StringBuilder with the title "Final Vote Counts:"
+                for (int i = 0; i < candidateVotes.length; i++) {// Iterate through the candidateVotes array
+                    results.append(candidateNames[i]).append(": ").append(candidateVotes[i]).append(" votes\n");
+                }
+                JOptionPane.showMessageDialog(adminFrame, results.toString());// Display the final vote count
+            }
+
+        });
+
+        // ActionListener for the showVoteesButton
+        showVoteesButton.addActionListener(new ActionListener() {// Add an ActionListener to the JButton
+            @Override
+            public void actionPerformed(ActionEvent e) {// Override the actionPerformed method
+                StringBuilder voteesList = new StringBuilder("Votees List:\n");// Create a StringBuilder with the title "Votees List:"
+                for (Map.Entry<String, String> entry : voteMapping.entrySet()) {// Iterate through the voteMapping map
+                    voteesList.append(entry.getKey()).append(": Voted for ").append(entry.getValue()).append("\n");// Append the user's name and candidate selection to the StringBuilder
+                }
+                JOptionPane.showMessageDialog(adminFrame, voteesList.toString());// Display the votees list
+            }
+        });
+
+
+// Make the admin frame visible
+adminFrame.setVisible(true);
+
+                 } else {
                     JOptionPane.showMessageDialog(frame, "Incorrect passcode. Access denied.");// Display a message to the user
                 }
             }
