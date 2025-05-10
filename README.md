@@ -15,9 +15,3 @@ Currently an array system is present to handle the votes and the respective coun
 2. Open the project in your favourite IDE
 3. Run the `OnlineVotingSystemWithGUI.java` file
 4. You can now cast your vote
-
-
-## Team Members:
-1. Jaspreet Kaur  
-2. Mahek Pandey
-3. Mith Utekar
