@@ -271,14 +271,41 @@ public class Controller {
     @FXML
     private void handleRefreshVoters() {
         try {
-            Map<String, Voter> voters = Firebase.getAllVoters();
+            // Clear current list
             votersList.clear();
-            votersList.addAll(voters.values());
+            
+            // Show a loading indicator or message
+            voterTable.setPlaceholder(new Label("Loading voters..."));
+            
+            // Get voters in a background thread to avoid UI freezing
+            new Thread(() -> {
+                try {
+                    Map<String, Voter> voters = Firebase.getAllVoters();
+                    
+                    // Update UI on JavaFX thread
+                    javafx.application.Platform.runLater(() -> {
+                        if (voters.isEmpty()) {
+                            voterTable.setPlaceholder(new Label("No registered voters found"));
+                        } else {
+                            votersList.addAll(voters.values());
+                        }
+                    });
+                } catch (Exception e) {
+                    final String errorMessage = e.getMessage();
+                    javafx.application.Platform.runLater(() -> {
+                        voterTable.setPlaceholder(new Label("Error loading voters"));
+                        showAlert("Error", "Error loading voters: " + errorMessage);
+                    });
+                }
+            }).start();
         } catch (Exception e) {
-            showAlert("Error", "Error loading voters: " + e.getMessage());
+            showAlert("Error", "Error starting voter refresh: " + e.getMessage());
         }
     }
     
+    /**
+     * Clears all fields in the voter registration form
+     */
     private void clearVoterFields() {
         registerVoterIdField.clear();
         voterNameField.clear();

@@ -123,32 +123,8 @@ public class Firebase {
      * Verifies if a voter is eligible to vote (registered and hasn't voted yet)
      */
     public static boolean canVote(String voterId) throws IOException {
-        String urlString = DATABASE_URL + VOTERS_NODE + "/" + voterId + ".json" + AUTH_PARAM;
-        URL url = URI.create(urlString).toURL();
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        
-        int responseCode = connection.getResponseCode();
-        if (responseCode != HttpURLConnection.HTTP_OK) {
-            throw new IOException("Failed to verify voter. Response code: " + responseCode);
-        }
-        
-        StringBuilder response = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-        }
-        
-        // If voter doesn't exist or has already voted, they can't vote
-        if (response.toString().equals("null")) {
-            return false; // Voter not found
-        }
-        
-        JSONObject voter = new JSONObject(response.toString());
-        return !voter.getBoolean("has_voted");
+        Voter voter = getVoterById(voterId);
+        return voter != null && !voter.getHasVoted();
     }
     
     /**
@@ -201,6 +177,26 @@ public class Firebase {
         }
         
         return voters;
+    }
+    
+    /**
+     * Gets a single voter by ID
+     */
+    public static Voter getVoterById(String voterId) throws IOException {
+        String response = getFromFirebase(VOTERS_NODE + "/" + voterId);
+        
+        if (response.equals("null")) {
+            return null;
+        }
+        
+        JSONObject voterJson = new JSONObject(response);
+        return new Voter(
+            voterJson.getString("voter_id"),
+            voterJson.getString("name"),
+            voterJson.getString("phone"),
+            voterJson.getString("address"),
+            voterJson.getBoolean("has_voted")
+        );
     }
     
     /**
