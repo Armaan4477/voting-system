@@ -1,0 +1,78 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+.button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+}
+
+.button:hover {
+    -fx-background-color: #0d8bf2;
+}
+
+.button:pressed {
+    -fx-background-color: #0b7ad1;
+}
+
+#castVoteButton {
+    -fx-background-color: #4CAF50;
+}
+
+#castVoteButton:hover {
+    -fx-background-color: #46a049;
+}
+
+.text-field, .date-picker {
+    -fx-background-radius: 4px;
+    -fx-padding: 8px;
+}
+
+.tab-pane {
+    -fx-tab-min-height: 40px;
+}
+
+.tab {
+    -fx-background-color: #e3e3e3;
+    -fx-padding: 5px 10px;
+}
+
+.tab:selected {
+    -fx-background-color: #2196F3;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f0f0f0;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #b3d9ff;
+}
+
+#voterStatusLabel.success {
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight: bold;
+}
+
+#voterStatusLabel.error {
+    -fx-text-fill: #f44336;
+    -fx-font-weight: bold;
+}
