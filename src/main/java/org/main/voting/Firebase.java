@@ -22,7 +22,7 @@ public class Firebase {
                 prop.load(input);
                 DATABASE_URL = prop.getProperty("firebase.database.url");
                 String authKey = prop.getProperty("firebase.auth.key");
-                AUTH_PARAM = "?auth=" + authKey;
+                AUTH_PARAM = authKey.equals("none") ? "" : "?auth=" + authKey;
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -61,20 +61,74 @@ public class Firebase {
     }
     
     /**
+     * Verifies if a voter is eligible to vote (registered and hasn't voted yet)
+     */
+    public static boolean canVote(String voterId) throws IOException {
+        // First get all voters
+        String response = getFromFirebase(VOTERS_NODE);
+        
+        if (response.equals("null")) {
+            return false;
+        }
+        
+        JSONObject jsonResponse = new JSONObject(response);
+        
+        for (String key : jsonResponse.keySet()) {
+            JSONObject voterJson = jsonResponse.getJSONObject(key);
+            if (voterJson.getString("voter_id").equals(voterId)) {
+                return !voterJson.getBoolean("has_voted");
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * Records a vote from a voter to a candidate
      */
     public static void castVote(String voterId, int candidateId) throws IOException {
-        // 1. Mark the voter as having voted
-        String voterUrl = DATABASE_URL + VOTERS_NODE + "/" + voterId + "/has_voted.json" + AUTH_PARAM;
-        putToFirebase(voterUrl, "true");
+        // Find the voter key first
+        String votersResponse = getFromFirebase(VOTERS_NODE);
+        JSONObject voters = new JSONObject(votersResponse);
+        String voterKey = null;
         
-        // 2. Record the vote
+        for (String key : voters.keySet()) {
+            JSONObject voter = voters.getJSONObject(key);
+            if (voter.getString("voter_id").equals(voterId)) {
+                voterKey = key;
+                break;
+            }
+        }
+        
+        if (voterKey == null) {
+            throw new IOException("Voter with ID " + voterId + " not found");
+        }
+        
+        // 1. Record the vote first
         String votePayload = String.format("{\"voter_id\":\"%s\",\"candidate_id\":%d,\"timestamp\":%d}", 
             voterId, candidateId, System.currentTimeMillis());
-        postToFirebase(VOTES_NODE, votePayload);
+        String voteResult = postToFirebase(VOTES_NODE, votePayload);
+        
+        if (voteResult.isEmpty()) {
+            throw new IOException("Failed to record vote");
+        }
+        
+        // 2. Mark the voter as having voted
+        String voterUrl = DATABASE_URL + VOTERS_NODE + "/" + voterKey + "/has_voted.json" + AUTH_PARAM;
+        try {
+            putToFirebase(voterUrl, "true");
+        } catch (IOException e) {
+            // Log the error but continue, as the vote was already recorded
+            System.err.println("Warning: Could not mark voter as voted, but vote was recorded: " + e.getMessage());
+        }
         
         // 3. Increment the candidate's vote count
-        incrementCandidateVoteCount(candidateId);
+        try {
+            incrementCandidateVoteCount(candidateId);
+        } catch (IOException e) {
+            // Log the error but continue, as the vote was already recorded
+            System.err.println("Warning: Could not update candidate vote count, but vote was recorded: " + e.getMessage());
+        }
     }
     
     /**
@@ -117,14 +171,6 @@ public class Firebase {
         } else {
             throw new IOException("Candidate with ID " + candidateId + " not found");
         }
-    }
-    
-    /**
-     * Verifies if a voter is eligible to vote (registered and hasn't voted yet)
-     */
-    public static boolean canVote(String voterId) throws IOException {
-        Voter voter = getVoterById(voterId);
-        return voter != null && !voter.getHasVoted();
     }
     
     /**
@@ -183,20 +229,29 @@ public class Firebase {
      * Gets a single voter by ID
      */
     public static Voter getVoterById(String voterId) throws IOException {
-        String response = getFromFirebase(VOTERS_NODE + "/" + voterId);
+        // Get all voters and find the one with matching voter_id
+        String response = getFromFirebase(VOTERS_NODE);
         
         if (response.equals("null")) {
             return null;
         }
         
-        JSONObject voterJson = new JSONObject(response);
-        return new Voter(
-            voterJson.getString("voter_id"),
-            voterJson.getString("name"),
-            voterJson.getString("phone"),
-            voterJson.getString("address"),
-            voterJson.getBoolean("has_voted")
-        );
+        JSONObject jsonResponse = new JSONObject(response);
+        
+        for (String key : jsonResponse.keySet()) {
+            JSONObject voterJson = jsonResponse.getJSONObject(key);
+            if (voterJson.getString("voter_id").equals(voterId)) {
+                return new Voter(
+                    voterJson.getString("voter_id"),
+                    voterJson.getString("name"),
+                    voterJson.getString("phone"),
+                    voterJson.getString("address"),
+                    voterJson.getBoolean("has_voted")
+                );
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -253,8 +308,9 @@ public class Firebase {
         }
 
         if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_CREATED) {
-            throw new IOException("Firebase request failed with response code: " + responseCode + 
-                                "\nResponse: " + response);
+            System.err.println("Firebase request failed with response code: " + responseCode + 
+                              "\nResponse: " + response);
+            return "";
         }
 
         return response.toString();

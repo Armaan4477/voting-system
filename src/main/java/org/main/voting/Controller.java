@@ -135,22 +135,30 @@ public class Controller {
         }
         
         try {
-            boolean canVote = Firebase.canVote(voterId);
+            Voter voter = Firebase.getVoterById(voterId);
             voterStatusLabel.setVisible(true);
             
-            if (canVote) {
-                voterStatusLabel.setText("Voter verified. Please select a candidate and cast your vote.");
-                voterStatusLabel.setTextFill(Color.GREEN);
-                castVoteButton.setDisable(false);
-                currentVoterId = voterId;
+            if (voter != null) {
+                if (!voter.getHasVoted()) {
+                    voterStatusLabel.setText("Voter verified: " + voter.getName() + ". Please select a candidate and cast your vote.");
+                    voterStatusLabel.setTextFill(Color.GREEN);
+                    castVoteButton.setDisable(false);
+                    currentVoterId = voterId;
+                } else {
+                    voterStatusLabel.setText("This voter has already cast a vote.");
+                    voterStatusLabel.setTextFill(Color.RED);
+                    castVoteButton.setDisable(true);
+                    currentVoterId = null;
+                }
             } else {
-                voterStatusLabel.setText("This voter ID is invalid or has already voted.");
+                voterStatusLabel.setText("Voter ID not found in the system. Please check the ID or register first.");
                 voterStatusLabel.setTextFill(Color.RED);
                 castVoteButton.setDisable(true);
                 currentVoterId = null;
             }
         } catch (Exception e) {
             showAlert("Error", "Error verifying voter: " + e.getMessage());
+            e.printStackTrace();
             voterStatusLabel.setVisible(false);
         }
     }
@@ -176,21 +184,36 @@ public class Controller {
                 return;
             }
             
-            Firebase.castVote(currentVoterId, selectedCandidate.getCandidateId());
+            // Confirm vote with the user
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Confirm Vote");
+            confirmAlert.setHeaderText("Vote Confirmation");
+            confirmAlert.setContentText("Are you sure you want to vote for " + selectedCandidate.getName() + "?\nThis action cannot be undone.");
             
-            showAlert("Success", "Vote cast successfully!");
-            
-            // Reset UI
-            voterIdField.clear();
-            voterStatusLabel.setVisible(false);
-            castVoteButton.setDisable(true);
-            currentVoterId = null;
-            
-            // Refresh candidates to show updated vote count
-            handleRefreshCandidates();
-            
+            confirmAlert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        Firebase.castVote(currentVoterId, selectedCandidate.getCandidateId());
+                        
+                        showAlert("Success", "Vote cast successfully!");
+                        
+                        // Reset UI
+                        voterIdField.clear();
+                        voterStatusLabel.setVisible(false);
+                        castVoteButton.setDisable(true);
+                        currentVoterId = null;
+                        
+                        // Refresh candidates to show updated vote count
+                        handleRefreshCandidates();
+                    } catch (Exception e) {
+                        showAlert("Error", "Error casting vote: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (Exception e) {
-            showAlert("Error", "Error casting vote: " + e.getMessage());
+            showAlert("Error", "Error preparing vote: " + e.getMessage());
+            e.printStackTrace();
         }
     }
     
