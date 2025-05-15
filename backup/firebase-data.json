@@ -78,5 +78,17 @@
     "start_date": "2025-04-26",
     "end_date": "2025-05-10",
     "is_active": true
+  },
+  "admins": {
+    "admin1": {
+      "username": "admin",
+      "password": "12345678",
+      "created_date": "2023-01-01"
+    },
+    "admin2": {
+      "username": "armaan",
+      "password": "12345678",
+      "created_date": "2023-01-15"
+    }
   }
 }

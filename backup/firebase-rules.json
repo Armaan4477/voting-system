@@ -21,6 +21,11 @@
     "election_config": {
       ".read": true,
       ".write": true
+    },
+    "admins": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["username"]
     }
   }
 }

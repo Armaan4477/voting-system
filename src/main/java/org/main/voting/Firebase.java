@@ -5,6 +5,11 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,6 +39,7 @@ public class Firebase {
     private static final String VOTERS_NODE = "voters";
     private static final String VOTES_NODE = "votes";
     private static final String ELECTION_CONFIG_NODE = "election_config";
+    private static final String ADMINS_NODE = "admins";
 
     /**
      * Adds a new candidate to the Firebase database
@@ -277,6 +283,120 @@ public class Firebase {
             return new JSONObject();
         }
         return new JSONObject(response);
+    }
+    
+    /**
+     * Authenticates an admin user
+     */
+    public static boolean authenticateAdmin(String username, String password) throws IOException {
+        // Get all admins
+        String response = getFromFirebase(ADMINS_NODE);
+        
+        if (response.equals("null")) {
+            // If there are no admins, create a default admin (for initial setup)
+            if (username.equalsIgnoreCase("admin") && password.equals("admin")) {
+                addAdmin("admin", "admin");
+                return true;
+            }
+            return false;
+        }
+        
+        JSONObject jsonResponse = new JSONObject(response);
+        
+        // Check if username exists and password matches
+        for (String key : jsonResponse.keySet()) {
+            JSONObject adminJson = jsonResponse.getJSONObject(key);
+            if (adminJson.getString("username").equals(username)) {
+                // Direct password comparison for existing accounts in database
+                if (adminJson.getString("password").equals(password)) {
+                    return true;
+                }
+                
+                // Also try hashed password comparison for newer accounts
+                String hashedPassword = hashPassword(password);
+                return adminJson.getString("password").equals(hashedPassword);
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Adds a new admin to the system
+     */
+    public static void addAdmin(String username, String password) throws IOException {
+        // Hash the password
+        String hashedPassword = hashPassword(password);
+        
+        // Format the current date
+        String createdDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        
+        String jsonPayload = String.format(
+            "{\"username\":\"%s\",\"password\":\"%s\",\"created_date\":\"%s\"}",
+            username, hashedPassword, createdDate
+        );
+        
+        postToFirebase(ADMINS_NODE, jsonPayload);
+    }
+    
+    /**
+     * Checks if an admin username already exists
+     */
+    public static boolean checkAdminExists(String username) throws IOException {
+        // Get all admins
+        String response = getFromFirebase(ADMINS_NODE);
+        
+        if (response.equals("null")) {
+            return false;
+        }
+        
+        JSONObject jsonResponse = new JSONObject(response);
+        
+        // Check if username exists
+        for (String key : jsonResponse.keySet()) {
+            JSONObject adminJson = jsonResponse.getJSONObject(key);
+            if (adminJson.getString("username").equals(username)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Gets all admins from the database
+     */
+    public static Map<String, Admin> getAllAdmins() throws IOException {
+        Map<String, Admin> admins = new HashMap<>();
+        String response = getFromFirebase(ADMINS_NODE);
+        
+        if (!response.equals("null")) {
+            JSONObject jsonResponse = new JSONObject(response);
+            
+            for (String key : jsonResponse.keySet()) {
+                JSONObject adminJson = jsonResponse.getJSONObject(key);
+                Admin admin = new Admin(
+                    adminJson.getString("username"),
+                    adminJson.getString("created_date")
+                );
+                admins.put(key, admin);
+            }
+        }
+        
+        return admins;
+    }
+    
+    /**
+     * Hash a password with SHA-256
+     */
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
     }
     
     // Helper methods for HTTP requests

@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -68,9 +70,29 @@ public class Controller {
     @FXML private TableColumn<Candidate, String> resultPositionColumn;
     @FXML private TableColumn<Candidate, Integer> resultVoteCountColumn;
     
+    // Admin Tab Controls
+    @FXML private VBox adminLoginForm;
+    @FXML private TextField adminUsernameField;
+    @FXML private PasswordField adminPasswordField;
+    @FXML private Button adminLoginButton;
+    @FXML private Label adminLoginStatus;
+    @FXML private TabPane adminTabPane;
+    @FXML private HBox adminLogoutContainer;
+    @FXML private Button adminLogoutButton;
+    
+    // Admin Management Tab
+    @FXML private TextField newAdminUsernameField;
+    @FXML private PasswordField newAdminPasswordField;
+    @FXML private PasswordField confirmAdminPasswordField;
+    @FXML private Button addAdminButton;
+    @FXML private TableView<Admin> adminTable;
+    @FXML private TableColumn<Admin, String> adminUsernameColumn;
+    @FXML private TableColumn<Admin, String> adminCreatedColumn;
+    
     // Observable lists for table views
     private ObservableList<Candidate> candidatesList = FXCollections.observableArrayList();
     private ObservableList<Voter> votersList = FXCollections.observableArrayList();
+    private ObservableList<Admin> adminsList = FXCollections.observableArrayList();
     
     // Current voter being verified
     private String currentVoterId = null;
@@ -98,6 +120,10 @@ public class Controller {
                            resultPartyColumn, resultPositionColumn, resultVoteCountColumn);
         resultsTable.setItems(candidatesList);
         
+        // Initialize Admin Table
+        setupAdminTable();
+        adminTable.setItems(adminsList);
+        
         // Load initial data
         handleRefreshCandidates();
         handleRefreshVoters();
@@ -123,6 +149,11 @@ public class Controller {
         voterPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         voterAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         hasVotedColumn.setCellValueFactory(new PropertyValueFactory<>("hasVoted"));
+    }
+    
+    private void setupAdminTable() {
+        adminUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        adminCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
     }
 
     // Vote Tab Methods
@@ -394,6 +425,112 @@ public class Controller {
     @FXML
     private void handleRefreshResults() {
         handleRefreshCandidates();  // Reuse the candidate refresh method
+    }
+
+    // Admin Authentication Methods
+    @FXML
+    private void handleAdminLogin() {
+        String username = adminUsernameField.getText().trim();
+        String password = adminPasswordField.getText();
+        
+        if (username.isEmpty() || password.isEmpty()) {
+            adminLoginStatus.setText("Please enter both username and password");
+            adminLoginStatus.setVisible(true);
+            return;
+        }
+        
+        try {
+            boolean isAuthenticated = Firebase.authenticateAdmin(username, password);
+            
+            if (isAuthenticated) {
+                // Hide login form, show admin content
+                adminLoginForm.setVisible(false);
+                adminLoginForm.setManaged(false);
+                adminTabPane.setVisible(true);
+                adminTabPane.setManaged(true);
+                adminLogoutContainer.setVisible(true);
+                adminLogoutContainer.setManaged(true);
+                
+                // Clear login fields and error message
+                adminUsernameField.clear();
+                adminPasswordField.clear();
+                adminLoginStatus.setVisible(false);
+                
+                // Load admin data
+                loadAdmins();
+            } else {
+                adminLoginStatus.setText("Invalid username or password");
+                adminLoginStatus.setVisible(true);
+            }
+        } catch (Exception e) {
+            adminLoginStatus.setText("Authentication error: " + e.getMessage());
+            adminLoginStatus.setVisible(true);
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void handleAdminLogout() {
+        // Show login form, hide admin content
+        adminLoginForm.setVisible(true);
+        adminLoginForm.setManaged(true);
+        adminTabPane.setVisible(false);
+        adminTabPane.setManaged(false);
+        adminLogoutContainer.setVisible(false);
+        adminLogoutContainer.setManaged(false);
+    }
+    
+    @FXML
+    private void handleAddAdmin() {
+        String username = newAdminUsernameField.getText().trim();
+        String password = newAdminPasswordField.getText();
+        String confirmPassword = confirmAdminPasswordField.getText();
+        
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert("Error", "Please fill all fields");
+            return;
+        }
+        
+        if (!password.equals(confirmPassword)) {
+            showAlert("Error", "Passwords do not match");
+            return;
+        }
+        
+        try {
+            // Check if username already exists
+            boolean exists = Firebase.checkAdminExists(username);
+            if (exists) {
+                showAlert("Error", "Username already exists");
+                return;
+            }
+            
+            // Add new admin
+            Firebase.addAdmin(username, password);
+            
+            // Clear fields
+            newAdminUsernameField.clear();
+            newAdminPasswordField.clear();
+            confirmAdminPasswordField.clear();
+            
+            // Refresh admin list
+            loadAdmins();
+            
+            showAlert("Success", "Admin added successfully!");
+        } catch (Exception e) {
+            showAlert("Error", "Error adding admin: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadAdmins() {
+        try {
+            Map<String, Admin> admins = Firebase.getAllAdmins();
+            adminsList.clear();
+            adminsList.addAll(admins.values());
+        } catch (Exception e) {
+            showAlert("Error", "Error loading admins: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(String title, String content) {
