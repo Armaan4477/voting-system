@@ -1,0 +1,31 @@
+{
+  "rules": {
+    "candidates": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["candidate_id"]
+    },
+    "voters": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["voter_id", "has_voted"]
+    },
+    "votes": {
+      ".read": true,
+      ".write": true,
+      "$vote_id": {
+        ".validate": "!data.exists() && newData.hasChildren(['voter_id', 'candidate_id'])"
+      },
+      ".indexOn": ["voter_id", "candidate_id"]
+    },
+    "election_config": {
+      ".read": true,
+      ".write": true
+    },
+    "admins": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["username"]
+    }
+  }
+}

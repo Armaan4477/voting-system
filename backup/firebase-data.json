@@ -1,0 +1,94 @@
+{
+  "candidates": {
+    "candidate1": {
+      "candidate_id": 1,
+      "name": "John Smith",
+      "party": "Democratic Party",
+      "position": "President",
+      "vote_count": 24
+    },
+    "candidate2": {
+      "candidate_id": 2,
+      "name": "Sarah Johnson",
+      "party": "Republican Party",
+      "position": "President",
+      "vote_count": 18
+    },
+    "candidate3": {
+      "candidate_id": 3,
+      "name": "Michael Chang",
+      "party": "Independent",
+      "position": "Vice President",
+      "vote_count": 15
+    },
+    "candidate4": {
+      "candidate_id": 4,
+      "name": "Priya Patel",
+      "party": "Progressive Party",
+      "position": "Secretary",
+      "vote_count": 12
+    },
+    "candidate5": {
+      "candidate_id": 5,
+      "name": "Carlos Rodriguez",
+      "party": "Green Party",
+      "position": "Treasurer",
+      "vote_count": 9
+    }
+  },
+  "voters": {
+    "voter1": {
+      "voter_id": "1001",
+      "name": "Armaan N",
+      "phone": "1234567890",
+      "address": "123 Maple Street",
+      "has_voted": false
+    },
+    "voter2": {
+      "voter_id": "1002",
+      "name": "Jessica Lee",
+      "phone": "1234567890",
+      "address": "456 Oak Avenue",
+      "has_voted": false
+    },
+    "voter3": {
+      "voter_id": "1003",
+      "name": "Robert Brown",
+      "phone": "1234567890",
+      "address": "789 Pine Road",
+      "has_voted": false
+    },
+    "voter4": {
+      "voter_id": "1004",
+      "name": "Emily Davis",
+      "phone": "1234567890",
+      "address": "101 Cedar Lane",
+      "has_voted": false
+    },
+    "voter5": {
+      "voter_id": "1005",
+      "name": "David Miller",
+      "phone": "1234567890",
+      "address": "202 Birch Boulevard",
+      "has_voted": false
+    }
+  },
+  "election_config": {
+    "title": "General Election 2025",
+    "start_date": "2025-04-26",
+    "end_date": "2025-05-10",
+    "is_active": true
+  },
+  "admins": {
+    "admin1": {
+      "username": "admin",
+      "password": "12345678",
+      "created_date": "2023-01-01"
+    },
+    "admin2": {
+      "username": "armaan",
+      "password": "12345678",
+      "created_date": "2023-01-15"
+    }
+  }
+}
