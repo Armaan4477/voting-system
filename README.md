@@ -31,17 +31,16 @@ A Java FX application for managing elections, allowing voters to cast votes and 
 
 ## Screenshots
 
-![Voter Interface](screenshots/voter_interface.png)
-![Admin Interface](screenshots/admin_interface.png)
-![Results Interface](screenshots/results_interface.png)
-![Candidate Management](screenshots/candidate_management.png)
-![Voter Registration](screenshots/voter_registration.png)
-![Election Settings](screenshots/election_settings.png)
-![Admin Management](screenshots/admin_management.png)
-![Login Interface](screenshots/login_interface.png)
-![Voter Verification](screenshots/voter_verification.png)
-![Vote Casting](screenshots/vote_casting.png)
-![Vote Results](screenshots/vote_results.png)
+| | |
+|:-------------------------:|:-------------------------:|
+| ![Voter Interface](screenshots/voter_interface.png) | ![Results Interface](screenshots/results_interface.png) |
+| *Voter verification and ballot casting interface* | *Real-time election results and statistics* |
+| ![Admin Login Interface](screenshots/admin_login_interface.png) | ![Candidate Management](screenshots/candidate_management.png) |
+| *Secure authentication portal for administrators* | *Add, edit and manage election candidates* |
+| ![Voter Registration](screenshots/voter_registration.png) | ![Election Settings](screenshots/election_settings.png) |
+| *Register new voters and update voter information* | *Configure election parameters and activation status* |
+| ![Admin Management](screenshots/admin_management.png) | |
+| *Manage administrator accounts and privileges* | |
 
 ## Technologies Used
 
