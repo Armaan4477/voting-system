@@ -38,62 +38,45 @@
   },
   "voters": {
     "voter1": {
-      "voter_id": "V1001",
-      "name": "Alex Wilson",
-      "phone": "555-123-4567",
+      "voter_id": "1001",
+      "name": "Armaan Nakhuda",
+      "phone": "1234567890",
       "address": "123 Maple Street",
-      "has_voted": true
+      "has_voted": false
     },
     "voter2": {
-      "voter_id": "V1002",
+      "voter_id": "1002",
       "name": "Jessica Lee",
-      "phone": "555-234-5678",
+      "phone": "1234567890",
       "address": "456 Oak Avenue",
-      "has_voted": true
+      "has_voted": false
     },
     "voter3": {
-      "voter_id": "V1003",
+      "voter_id": "1003",
       "name": "Robert Brown",
-      "phone": "555-345-6789",
+      "phone": "1234567890",
       "address": "789 Pine Road",
       "has_voted": false
     },
     "voter4": {
-      "voter_id": "V1004",
+      "voter_id": "1004",
       "name": "Emily Davis",
-      "phone": "555-456-7890",
+      "phone": "1234567890",
       "address": "101 Cedar Lane",
-      "has_voted": true
+      "has_voted": false
     },
     "voter5": {
-      "voter_id": "V1005",
+      "voter_id": "1005",
       "name": "David Miller",
-      "phone": "555-567-8901",
+      "phone": "1234567890",
       "address": "202 Birch Boulevard",
       "has_voted": false
     }
   },
-  "votes": {
-    "vote1": {
-      "voter_id": "V1001",
-      "candidate_id": 2,
-      "timestamp": 1682541600000
-    },
-    "vote2": {
-      "voter_id": "V1002",
-      "candidate_id": 1,
-      "timestamp": 1682545200000
-    },
-    "vote3": {
-      "voter_id": "V1004",
-      "candidate_id": 1,
-      "timestamp": 1682548800000
-    }
-  },
   "election_config": {
-    "title": "General Election 2023",
-    "start_date": "2023-04-26",
-    "end_date": "2023-05-10",
+    "title": "General Election 2025",
+    "start_date": "2025-04-26",
+    "end_date": "2025-05-10",
     "is_active": true
   }
 }
