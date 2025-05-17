@@ -2,9 +2,9 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>../target/quizmaster-0.0.1-SNAPSHOT.jar</jar>
-  <outfile>../QuizMaster.exe</outfile>
-  <errTitle>QuizMaster</errTitle>
+  <jar>../target/hellofx-0.0.1-SNAPSHOT.jar</jar>
+  <outfile>../VotingSystem.exe</outfile>
+  <errTitle>Voting System</errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>

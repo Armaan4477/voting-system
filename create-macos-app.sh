@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Set variables
-APP_NAME="Quiz Master"
-JAR_FILE="target/quizmaster-0.0.1-SNAPSHOT.jar"
+APP_NAME="Voting System"
+JAR_FILE="target/hellofx-0.0.1-SNAPSHOT.jar"
 VERSION="1.0.0"
-BUNDLE_ID="org.main.quizmaster"
-COPYRIGHT="© $(date +%Y) Quiz Master"
+BUNDLE_ID="org.main.voting"
+COPYRIGHT="© $(date +%Y) Voting System"
 
 # Check if JAR exists
 if [ ! -f "$JAR_FILE" ]; then
@@ -108,7 +108,7 @@ if [ -n "$JAVAFX_SDK" ] && [ -d "$JAVAFX_SDK" ]; then
     fi
     
     # Create launcher script that uses bundled JavaFX
-    cat > "$MACOS_DIR/QuizMaster" << 'EOF'
+    cat > "$MACOS_DIR/VotingSystem" << 'EOF'
 #!/bin/bash
 
 # Get the directory where the script is located
@@ -123,8 +123,8 @@ if ! command -v java &> /dev/null; then
 fi
 
 # Set debug output
-exec > "$HOME/Library/Logs/QuizMaster.log" 2>&1
-echo "Starting Quiz Master Application at $(date)"
+exec > "$HOME/Library/Logs/VotingSystem.log" 2>&1
+echo "Starting Voting System Application at $(date)"
 echo "Java location: $(which java)"
 echo "Path: $PATH"
 echo "Java version: $(java -version 2>&1)"
@@ -140,7 +140,7 @@ ls -la "$JAVA_DIR/lib"
 java \
     --module-path "$JAVA_DIR/lib" \
     --add-modules javafx.controls,javafx.fxml,javafx.graphics \
-    -jar "$JAVA_DIR/quizmaster-0.0.1-SNAPSHOT.jar"
+    -jar "$JAVA_DIR/hellofx-0.0.1-SNAPSHOT.jar"
 
 exit_code=$?
 echo "Application exited with code $exit_code at $(date)"
@@ -149,7 +149,7 @@ EOF
 else
     echo "No JavaFX SDK specified. Creating a simpler launcher..."
     # Create a simple launcher that assumes JavaFX is embedded or available
-    cat > "$MACOS_DIR/QuizMaster" << 'EOF'
+    cat > "$MACOS_DIR/VotingSystem" << 'EOF'
 #!/bin/bash
 
 # Get the directory where the script is located
@@ -164,8 +164,8 @@ if ! command -v java &> /dev/null; then
 fi
 
 # Set debug output
-exec > "$HOME/Library/Logs/QuizMaster.log" 2>&1
-echo "Starting Quiz Master Application at $(date)"
+exec > "$HOME/Library/Logs/VotingSystem.log" 2>&1
+echo "Starting Voting System Application at $(date)"
 echo "Java location: $(which java)"
 echo "Path: $PATH"
 echo "Java version: $(java -version 2>&1)"
@@ -177,14 +177,14 @@ echo "Java directory: $JAVA_DIR"
 echo "Attempting to launch the application..."
 
 echo "Method 1: Direct JAR execution"
-java -jar "$JAVA_DIR/quizmaster-0.0.1-SNAPSHOT.jar"
+java -jar "$JAVA_DIR/hellofx-0.0.1-SNAPSHOT.jar"
 if [ $? -eq 0 ]; then
     echo "Application exited successfully at $(date)"
     exit 0
 fi
 
 echo "Method 2: With JavaFX modules"
-java --module-path "$JAVA_DIR" --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar "$JAVA_DIR/quizmaster-0.0.1-SNAPSHOT.jar"
+java --module-path "$JAVA_DIR" --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar "$JAVA_DIR/hellofx-0.0.1-SNAPSHOT.jar"
 if [ $? -eq 0 ]; then
     echo "Application exited successfully at $(date)"
     exit 0
@@ -201,7 +201,7 @@ JAVAFX_PATHS=(
 for path in "${JAVAFX_PATHS[@]}"; do
     if [ -d "$path" ]; then
         echo "Found JavaFX at $path, trying to use it"
-        java --module-path "$path" --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar "$JAVA_DIR/quizmaster-0.0.1-SNAPSHOT.jar"
+        java --module-path "$path" --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar "$JAVA_DIR/hellofx-0.0.1-SNAPSHOT.jar"
         if [ $? -eq 0 ]; then
             echo "Application exited successfully at $(date)"
             exit 0
@@ -210,13 +210,13 @@ for path in "${JAVAFX_PATHS[@]}"; do
 done
 
 echo "All launch methods failed. Please make sure JavaFX is installed properly."
-osascript -e 'tell app "System Events" to display dialog "Failed to launch Quiz Master. Check the log at ~/Library/Logs/QuizMaster.log for details." buttons {"OK"} default button 1 with title "Launch Failed" with icon stop'
+osascript -e 'tell app "System Events" to display dialog "Failed to launch Voting System. Check the log at ~/Library/Logs/VotingSystem.log for details." buttons {"OK"} default button 1 with title "Launch Failed" with icon stop'
 exit 1
 EOF
 fi
 
 # Make the launcher script executable
-chmod +x "$MACOS_DIR/QuizMaster"
+chmod +x "$MACOS_DIR/VotingSystem"
 
 # Create Info.plist
 echo "Creating Info.plist..."
@@ -228,7 +228,7 @@ cat > "$CONTENTS_DIR/Info.plist" << EOF
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>QuizMaster</string>
+    <string>VotingSystem</string>
     <key>CFBundleIdentifier</key>
     <string>$BUNDLE_ID</string>
     <key>CFBundleDisplayName</key>
@@ -263,7 +263,7 @@ echo "To run the application:"
 echo "  1. Double-click the app bundle in Finder"
 echo "  2. Or run: open \"$APP_DIR\""
 echo ""
-echo "Debug logs will be written to: ~/Library/Logs/QuizMaster.log"
+echo "Debug logs will be written to: ~/Library/Logs/VotingSystem.log"
 echo "Check this file if the application doesn't start properly."
 echo ""
 echo "Note: You may need to right-click and select 'Open' the first time to bypass Gatekeeper."

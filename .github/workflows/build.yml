@@ -58,8 +58,8 @@ jobs:
     - name: Upload Linux executable
       uses: actions/upload-artifact@v4
       with:
-        name: quizmaster-linux
-        path: QuizMaster
+        name: votingsystem-linux
+        path: VotingSystem
         retention-days: 7
 
   build-linux-arm:
@@ -106,13 +106,13 @@ jobs:
         chmod +x build-linux-single.sh
         ./build-linux-single.sh
         # Rename the output to indicate ARM build
-        mv QuizMaster QuizMaster-arm64
+        mv VotingSystem VotingSystem-arm64
         
     - name: Upload Linux ARM executable
       uses: actions/upload-artifact@v4
       with:
-        name: quizmaster-linux-arm64
-        path: QuizMaster-arm64
+        name: votingsystem-linux-arm64
+        path: VotingSystem-arm64
         retention-days: 7
 
   build-macos:
@@ -143,7 +143,7 @@ jobs:
       - name: Verify build artifacts
         run: |
           ls -l target
-          test -f target/quizmaster-0.0.1-SNAPSHOT.jar
+          test -f target/hellofx-0.0.1-SNAPSHOT.jar
 
       - name: Make shell script executable
         run: chmod +x create-macos-app.sh
@@ -154,18 +154,18 @@ jobs:
       - name: Create DMG archive
         run: |
           mkdir -p dist
-          hdiutil create -volname "Quiz Master" -srcfolder "Quiz Master.app" -ov -format UDZO dist/QuizMaster.dmg
+          hdiutil create -volname "Voting System" -srcfolder "Voting System.app" -ov -format UDZO dist/VotingSystem.dmg
 
       - name: Verify app package
         run: |
-          ls -la "Quiz Master.app"
+          ls -la "Voting System.app"
           ls -la dist/
           
       - name: Upload macOS application artifact (DMG)
         uses: actions/upload-artifact@v4
         with:
-          name: QuizMaster-macOS-DMG
-          path: dist/QuizMaster.dmg
+          name: VotingSystem-macOS-DMG
+          path: dist/VotingSystem.dmg
 
   build-windows:
     runs-on: windows-latest
@@ -211,6 +211,6 @@ jobs:
     - name: Upload Windows executable
       uses: actions/upload-artifact@v4
       with:
-        name: quizmaster-windows
-        path: dist/QuizMaster.exe
+        name: votingsystem-windows
+        path: dist/VotingSystem.exe
         retention-days: 7

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-APP_NAME="QuizMaster"
+APP_NAME="VotingSystem"
 VERSION="1.0.0"
-JAR_FILE="target/quizmaster-0.0.1-SNAPSHOT.jar"
+JAR_FILE="target/hellofx-0.0.1-SNAPSHOT.jar"
 TMP_DIR="build-tmp"
 OUTPUT_FILE="$APP_NAME"
 JAVA_DIR="$TMP_DIR/java"
@@ -69,13 +69,13 @@ if ! command -v java &> /dev/null; then
 fi
 
 # Try to run
-java -jar "$JAVADIR/quizmaster-0.0.1-SNAPSHOT.jar"
+java -jar "$JAVADIR/hellofx-0.0.1-SNAPSHOT.jar"
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -ne 0 ]; then
     echo "Retrying with JavaFX modules..."
     java --module-path "$JAVADIR/lib" --add-modules javafx.controls,javafx.fxml \
-         -jar "$JAVADIR/quizmaster-0.0.1-SNAPSHOT.jar"
+         -jar "$JAVADIR/hellofx-0.0.1-SNAPSHOT.jar"
     exit $?
 fi
 
@@ -92,9 +92,9 @@ tar -czf package.tar.gz -C "$TMP_DIR" .
 echo "Creating $OUTPUT_FILE..."
 cat > "$OUTPUT_FILE" << 'EOF'
 #!/bin/bash
-# Self-extracting executable launcher for QuizMaster
+# Self-extracting executable launcher for VotingSystem
 
-APP_NAME="QuizMaster"
+APP_NAME="VotingSystem"
 WORKDIR=$(mktemp -d /tmp/$APP_NAME.XXXXXX)
 
 # Cleanup on exit
